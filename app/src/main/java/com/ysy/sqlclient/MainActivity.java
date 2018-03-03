@@ -32,12 +32,19 @@ public class MainActivity extends Activity {
         SQLClient.invokeStringRequest(this, entity, new SQLCallback<ResultSet>() {
             @Override
             public void onSuccess(ResultSet res) {
+                // List<DataEntity> list = new ArrayList<>();
                 try {
                     while (res.next()) {
+                        // DataEntity data = new DataEntity();
                         String resultColumn1 = res.getString(1);
                         int resultColumn2 = res.getInt(2);
                         // ...
+                        // data.setOne(resultColumn1);
+                        // data.setTwo(resultColumn2);
+                        // ...
+                        // list.add(data);
                     }
+                    // ...(some code using list)
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
