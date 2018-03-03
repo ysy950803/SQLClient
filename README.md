@@ -6,7 +6,7 @@ You can connect MySQL Databases and execute INSERT, UPDATE, SELECT, DELETE opera
 HttpClient to GET and POST.
 
 ```java
-    // ...
+    // Single SQL operation.
     private void queryDataFromDB() {
         SQLEntity<String> entity = new SQLEntity<>();
         entity.setSQL("select * from table_name where id = 1");
@@ -39,5 +39,29 @@ HttpClient to GET and POST.
             }
         });
     }
-    // ...    
+
+    // Also support multi SQL operations.
+    private void updateDataToDB() {
+        SQLEntity<List<String>> entity = new SQLEntity<>();
+        List<String> sqls = new ArrayList<>();
+        sqls.add("update ...");
+        sqls.add("insert into ...");
+        sqls.add("delete ...");
+        entity.setSQL(sqls);
+        entity.setType(SQLRequest.RequestType.MULTI_UPDATE);
+        SQLClient.invokeListRequest(this, entity, new SQLCallback<List<ResultSet>>() {
+            @Override
+            public void onSuccess(List<ResultSet> res) {
+                // Usually, res here is not useful.
+                // Do something about success.
+                Toast.makeText(MainActivity.this, "Update DB Successfully.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFail(int errorCode) {
+                Toast.makeText(MainActivity.this, SQLErrorConstant.getErrorMsg(errorCode),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 ```

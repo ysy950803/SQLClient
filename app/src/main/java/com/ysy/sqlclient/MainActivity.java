@@ -12,6 +12,8 @@ import com.ysy.dbconnector.SQLRequest;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用例
@@ -25,6 +27,7 @@ public class MainActivity extends Activity {
         queryDataFromDB();
     }
 
+    // Single SQL operation.
     private void queryDataFromDB() {
         SQLEntity<String> entity = new SQLEntity<>();
         entity.setSQL("select * from table_name where id = 1");
@@ -48,6 +51,31 @@ public class MainActivity extends Activity {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void onFail(int errorCode) {
+                Toast.makeText(MainActivity.this, SQLErrorConstant.getErrorMsg(errorCode),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Also support multi SQL operations.
+    private void updateDataToDB() {
+        SQLEntity<List<String>> entity = new SQLEntity<>();
+        List<String> sqls = new ArrayList<>();
+        sqls.add("update ...");
+        sqls.add("insert into ...");
+        sqls.add("delete ...");
+        entity.setSQL(sqls);
+        entity.setType(SQLRequest.RequestType.MULTI_UPDATE);
+        SQLClient.invokeListRequest(this, entity, new SQLCallback<List<ResultSet>>() {
+            @Override
+            public void onSuccess(List<ResultSet> res) {
+                // Usually, res here is not useful.
+                // Do something about success.
+                Toast.makeText(MainActivity.this, "Update DB Successfully.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
