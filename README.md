@@ -6,6 +6,7 @@ You can connect MySQL Databases and execute INSERT, UPDATE, SELECT, DELETE opera
 HttpClient to GET and POST.
 
 ```java
+    // ...
     private void queryDataFromDB() {
         SQLEntity<String> entity = new SQLEntity<>();
         entity.setSQL("select * from table_name where id = 1");
@@ -38,5 +39,5 @@ HttpClient to GET and POST.
             }
         });
     }
-}
+    // ...    
 ```
