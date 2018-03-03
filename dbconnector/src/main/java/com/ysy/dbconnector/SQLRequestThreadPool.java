@@ -19,7 +19,7 @@ class SQLRequestThreadPool {
         SQLClientConfig config = SQLClient.config;
         pool = new ThreadPoolExecutor(config.corePoolZie,
                 config.maxPoolSize, config.keepAliveTime,
-                config.timeUnit, config.blockingQueue);
+                config.keepAliveTimeUnit, config.blockingQueue);
     }
 
     /**

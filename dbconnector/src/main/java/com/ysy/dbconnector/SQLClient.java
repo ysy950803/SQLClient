@@ -1,6 +1,5 @@
 package com.ysy.dbconnector;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import java.sql.ResultSet;
@@ -14,7 +13,6 @@ import java.util.Map;
  */
 public class SQLClient {
 
-    @SuppressLint("StaticFieldLeak")
     static SQLClientConfig config;
 
     // 存放每个Context对应的RequestManager

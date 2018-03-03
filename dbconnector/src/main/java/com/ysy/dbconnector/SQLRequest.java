@@ -17,18 +17,28 @@ import java.util.concurrent.TimeUnit;
  */
 public class SQLRequest<S, R> implements Runnable {
 
+    private static String sDbDriver;
+    private static String sDBUrl;
+    private static String sDBUser;
+    private static String sDBPw;
+    private static int sTimeOutLimit;
+
+    static {
+        SQLClientConfig config = SQLClient.config;
+        sDbDriver = config.dbDriver;
+        sDBUrl = config.dbUrl;
+        sDBUser = config.dbUser;
+        sDBPw = config.dbPw;
+        sTimeOutLimit = config.timeOutSeconds;
+    }
+
     private Connection conn = null;
     private Statement stmt = null;
     private ResultSet rs = null;
-    private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/db_name";
-    private static final String DB_USER = "root";
-    private static final String DB_PW = "123456";
-    private static final int TIMEOUT_LIMIT = 16;
 
     private Connection getConn() {
         try {
-            Class.forName(DB_DRIVER);
+            Class.forName(sDbDriver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -36,13 +46,13 @@ public class SQLRequest<S, R> implements Runnable {
             @Override
             public void run() {
                 try {
-                    conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PW);
+                    conn = DriverManager.getConnection(sDBUrl, sDBUser, sDBPw);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-        int waitTime = TIMEOUT_LIMIT;
+        int waitTime = sTimeOutLimit;
         while (waitTime > 0) {
             if (conn != null)
                 break;
@@ -151,7 +161,7 @@ public class SQLRequest<S, R> implements Runnable {
             String exeSQL = (String) sql;
             try {
                 stmt = conn.createStatement();
-                stmt.setQueryTimeout(TIMEOUT_LIMIT);
+                stmt.setQueryTimeout(sTimeOutLimit);
                 rs = stmt.executeQuery(exeSQL);
                 if (rs != null && callback != null) {
                     if (handler != null)
@@ -177,7 +187,7 @@ public class SQLRequest<S, R> implements Runnable {
             String exeSQL = (String) sql;
             try {
                 stmt = conn.createStatement();
-                stmt.setQueryTimeout(TIMEOUT_LIMIT);
+                stmt.setQueryTimeout(sTimeOutLimit);
                 int res = stmt.executeUpdate(exeSQL);
                 if (res == 1 && callback != null) {
                     if (handler != null)
@@ -202,7 +212,7 @@ public class SQLRequest<S, R> implements Runnable {
                 conn.setAutoCommit(false);
                 for (int i = 0; i < exeSQList.size(); i++) {
                     stmt = conn.createStatement();
-                    stmt.setQueryTimeout(TIMEOUT_LIMIT / exeSQList.size());
+                    stmt.setQueryTimeout(sTimeOutLimit / exeSQList.size());
                     res = res + stmt.executeUpdate(exeSQList.get(i));
                 }
                 conn.commit();
@@ -236,7 +246,7 @@ public class SQLRequest<S, R> implements Runnable {
             String exeSQL = (String) sql;
             try {
                 stmt = conn.createStatement();
-                stmt.setQueryTimeout(TIMEOUT_LIMIT);
+                stmt.setQueryTimeout(sTimeOutLimit);
                 int res = stmt.executeUpdate(exeSQL);
                 if (res == 1 && callback != null) {
                     if (handler != null)
@@ -265,7 +275,7 @@ public class SQLRequest<S, R> implements Runnable {
             String exeSQL = (String) sql;
             try {
                 stmt = conn.createStatement();
-                stmt.setQueryTimeout(TIMEOUT_LIMIT);
+                stmt.setQueryTimeout(sTimeOutLimit);
                 int res = stmt.executeUpdate(exeSQL);
                 if (res == 1 && callback != null) {
                     if (handler != null)
@@ -293,7 +303,7 @@ public class SQLRequest<S, R> implements Runnable {
             try {
                 for (int i = 0; i < exeSQList.size(); i++) {
                     stmt = conn.createStatement();
-                    stmt.setQueryTimeout(TIMEOUT_LIMIT / exeSQList.size());
+                    stmt.setQueryTimeout(sTimeOutLimit / exeSQList.size());
                     rs = stmt.executeQuery(exeSQList.get(i));
                     resultSetList.add(rs);
                 }
@@ -324,7 +334,7 @@ public class SQLRequest<S, R> implements Runnable {
                 conn.setAutoCommit(false);
                 for (int i = 0; i < exeSQList.size(); i++) {
                     stmt = conn.createStatement();
-                    stmt.setQueryTimeout(TIMEOUT_LIMIT / exeSQList.size());
+                    stmt.setQueryTimeout(sTimeOutLimit / exeSQList.size());
                     res = res + stmt.executeUpdate(exeSQList.get(i));
                 }
                 conn.commit();
