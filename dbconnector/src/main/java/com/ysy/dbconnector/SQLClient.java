@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * SQLClient主体
  * Created by Sylvester on 17/4/18.
  */
-
 public class SQLClient {
 
     @SuppressLint("StaticFieldLeak")
     static SQLClientConfig config;
 
-    // 存放每个Activity对应的RequestManager
+    // 存放每个Context对应的RequestManager
     private static Map<Context, SQLRequestManager> managerMap;
 
     /**
@@ -35,12 +35,12 @@ public class SQLClient {
     /**
      * 执行SQL请求
      *
-     * @param context 发起SQL请求的Activity
+     * @param context  发起SQL请求的Context
      * @param callBack SQL请求执行完毕后的回调接口
      */
     public static SQLRequest invokeStringRequest(Context context,
                                                  SQLEntity<String> entity, SQLCallback<ResultSet> callBack) {
-        // 获取该activity对应的RequestManager对象，并创建SQLRequest对象
+        // 获取该Context对应的RequestManager对象，并创建SQLRequest对象
         SQLRequestManager manager = checkRequestManager(context, true);
         SQLRequest request = manager.createStringRequest(entity, callBack);
         // 执行请求
@@ -57,7 +57,7 @@ public class SQLClient {
     }
 
     /**
-     * 取消指定Activity中发起的所有HTTP请求
+     * 取消指定Context中发起的所有HTTP请求
      */
     public static void cancelAllRequest(Context context) {
         SQLRequestManager requestManager = checkRequestManager(context, false);
@@ -66,14 +66,14 @@ public class SQLClient {
     }
 
     /**
-     * 取消线程池中整个阻塞队列所有HTTP请求
+     * 取消线程池中整个阻塞队列所有SQL操作请求
      */
     public static void cancelAllRequest() {
         SQLRequestThreadPool.removeAllTask();
     }
 
     /**
-     * 取消指定Activity中未执行的请求
+     * 取消指定Context中未执行的请求
      */
     public static void cancelBlockingRequest(Context context) {
         SQLRequestManager requestManager = checkRequestManager(context, false);
@@ -96,7 +96,7 @@ public class SQLClient {
     }
 
     /**
-     * 访问activity对应的RequestManager对象
+     * 访问Context对应的RequestManager对象
      *
      * @param createNew 当RequestManager对象为null时是否创建新的RequestManager对象
      */
@@ -107,7 +107,7 @@ public class SQLClient {
                 manager = new SQLRequestManager();
                 managerMap.put(context, manager);
             } else {
-//                throw new NullPointerException(activity.getClass().getSimpleName() + "'s RequestManager is null!");
+                throw new NullPointerException(context.getClass().getSimpleName() + "'s RequestManager is null!");
             }
         }
         return manager;

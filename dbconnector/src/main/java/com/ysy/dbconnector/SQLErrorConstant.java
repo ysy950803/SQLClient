@@ -1,9 +1,9 @@
 package com.ysy.dbconnector;
 
 /**
+ * 错误信息
  * Created by Sylvester on 17/4/18.
  */
-
 public class SQLErrorConstant {
 
     public static int ERROR_TIMEOUT = 0;
@@ -15,16 +15,16 @@ public class SQLErrorConstant {
         String msg = null;
         switch (errorCode) {
             case 0:
-                msg = "连接超时啦ㄒoㄒ，请稍后重试";
+                msg = "Timeout to connect.";
                 break;
             case 1:
-                msg = "网络异常(⊙﹏⊙)b，请稍后重试";
+                msg = "Network exception.";
                 break;
             case 2:
-                msg = "系统错误T_T，请稍后重试";
+                msg = "System Error.";
                 break;
             case 3:
-                msg = "用户已存在啦，想个别的吧";
+                msg = "Duplicate when inserting.";
                 break;
             default:
                 break;

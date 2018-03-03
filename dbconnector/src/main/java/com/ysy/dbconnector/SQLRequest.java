@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * SQL操作请求单元
  * Created by Sylvester on 17/4/18.
  */
-
 public class SQLRequest<S, R> implements Runnable {
 
     private Connection conn = null;

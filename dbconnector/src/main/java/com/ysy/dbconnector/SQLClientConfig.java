@@ -6,6 +6,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * SQLClient全局配置
+ * Created by Sylvester on 17/4/18.
+ */
 public class SQLClientConfig {
 
     // 默认核心池大小

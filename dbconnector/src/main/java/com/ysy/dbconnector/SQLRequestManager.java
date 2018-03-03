@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 /**
+ * SQL操作请求管理器
  * Created by Sylvester on 17/4/18.
  */
-
 class SQLRequestManager {
 
     ArrayList<SQLRequest> requests;

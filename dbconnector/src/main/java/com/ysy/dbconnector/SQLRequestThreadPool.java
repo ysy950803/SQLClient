@@ -4,6 +4,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * SQL操作请求线程池
+ * Created by Sylvester on 17/4/18.
+ */
 class SQLRequestThreadPool {
 
     private static ThreadPoolExecutor pool;
