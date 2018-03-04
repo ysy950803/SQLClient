@@ -1,6 +1,22 @@
 # SQLClient
 A library to help you that connect MySQL as simply as HTTP request on Android.
 
+## Usage
+1. Your app module must depend on jdbc library: https://github.com/ysy950803/SQLClient/blob/master/app/libs/mysql-connector-java-5.1.36-bin.jar
+2. Download **dbconnector** module.
+3. If your Android Studio is the lastest version, edit your app's **build.gradle** and add as below:
+```
+dependencies {
+    implementation project(':dbconnector')
+}
+```
+If your Android Studio is the old version just like 2.3, add as below:
+```
+dependencies {
+    compile project(':dbconnector')
+}
+```
+
 ## Example
 You can connect MySQL Databases and execute INSERT, UPDATE, SELECT, DELETE operations as using 
 HttpClient to GET and POST.
