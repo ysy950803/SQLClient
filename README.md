@@ -64,4 +64,11 @@ HttpClient to GET and POST.
             }
         });
     }
+    
+    // Please invoke cancel method to clear all unfinished requests.
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SQLClient.cancel(this);
+    }
 ```
